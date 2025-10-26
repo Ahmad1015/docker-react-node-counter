@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    # - ./backend:/app
+    environment:
+      - PORT=5000
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=counteruser
+      - POSTGRES_PASSWORD=counterpass
+      - POSTGRES_DB=counterdb
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: counteruser
+      POSTGRES_PASSWORD: counterpass
+      POSTGRES_DB: counterdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
