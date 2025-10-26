@@ -4,7 +4,7 @@ name: CD - Deploy
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
